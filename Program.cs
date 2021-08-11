@@ -39,15 +39,18 @@ namespace ETL_2
             //////text parsing/////////////////////////
 
             //  string[] parsed = decoded.Split(',', Environment.NewLine);
-            string[] parsed = decoded.Split(Environment.NewLine,
-                              StringSplitOptions.RemoveEmptyEntries);
+            //string[] parsed = decoded.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (var word in parsed)
-            {
-                System.Console.WriteLine($"<{word}>");
-            }
+   
+          
+
+            Console.WriteLine(decoded.Split(new[] { Environment.NewLine }, StringSplitOptions.None));
+
+
+
             ConnectDb();
             Console.WriteLine(connectStat);
+
 
             //start of db creation
 
