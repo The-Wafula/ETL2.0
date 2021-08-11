@@ -35,10 +35,12 @@ namespace ETL_2
             var decoded = Decoded(encodedData);
             Console.WriteLine("decoded data\n" + decoded);
             ////////////////////////done decrypting//////////////////////////////
-            
+
             //////text parsing/////////////////////////
-          
-            string[] parsed = decoded.Split(',');
+
+            //  string[] parsed = decoded.Split(',', Environment.NewLine);
+            string[] parsed = decoded.Split(Environment.NewLine,
+                              StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var word in parsed)
             {
