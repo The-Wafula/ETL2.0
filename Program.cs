@@ -65,7 +65,8 @@ namespace ETL_2
 
 
 
-           ConnectDb();
+         //  ConnectDb();
+            ConnectDb2();
             Console.WriteLine(connectStat);
 
 
@@ -81,44 +82,31 @@ namespace ETL_2
 
         }
 
-
-
-        public static String ConnectDb()//fetches encoded file content
+        public static void ConnectDb2()//fetches encoded file content
         {
-            MySql.Data.MySqlClient.MySqlConnection conn;
-            string myConnectionString;
+      
+          //  myConnectionString = "server=127.0.0.1;uid=root;" + "pwd=beee002j2011;database=testdb;";
+            //var sql = "INSERT INTO customers(fname, lname, phone) VALUES(@FirstName, @SecondName,@Phone)";
 
-           
-                myConnectionString = "server=127.0.0.1;uid=root;" + "pwd=beee002j2011;database=world;";
-            using (var connection = new SqlConnection(myConnectionString))
-
-                try
+            string dbConnectionString = "server=127.0.0.1;uid=root;" + "pwd=beee002j2011;database=testdb;";
+            using (SqlConnection connection = new SqlConnection(dbConnectionString))
             {
-                conn = new MySql.Data.MySqlClient.MySqlConnection(myConnectionString);
-                conn.Open();
-                connectStat = "Succesfull connection!";
-
-                var sql = "INSERT INTO customers(fname, lname, phone) VALUES(@FirstName, @SecondName,@Phone)";
-                using (var cmd = new SqlCommand(sql, connection))
+                string sql = "INSERT INTO customers(fname, lname, phone) VALUES(@FirstName, @SecondName,@Phone)";
+                using (SqlCommand cmd = new SqlCommand(sql, connection))
                 {
+
+                    connection.Open();
                     cmd.Parameters.AddWithValue("@FirstName", "simeon");
                     cmd.Parameters.AddWithValue("@SecondName", "wafula");
                     cmd.Parameters.AddWithValue("@Phone", "0702826107");
 
-                  //  cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                 }
-                return connectStat;
-               // conn.Close();
-            }
-
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-                connectStat="Can not open connection !";
-                return connectStat;
             }
         }
 
+
+        
         public static String getPathdata(String path)//fetches encoded file content
         {
             Console.WriteLine("File Path\n" + path);
