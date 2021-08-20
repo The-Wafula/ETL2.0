@@ -15,6 +15,10 @@ namespace ETL_2
     class Program
     {
         public static string connectStat;
+        public static int count = 0;
+       // public string[] parsed2;
+        //private MySqlConnection conn;
+
         public static void Main(string[] args)
         {
    
@@ -39,20 +43,36 @@ namespace ETL_2
             //////text parsing/////////////////////////
 
             //  string[] parsed = decoded.Split(',', Environment.NewLine);
+ string[] parsed = decoded.Split('\n');
             //string[] parsed = decoded.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
-   
-          
+            foreach (string i in parsed)
+            {
+                Console.WriteLine(i);
+                string[] parsed2 = i.Split(',');
 
-            Console.WriteLine(decoded.Split(new[] { Environment.NewLine }, StringSplitOptions.None));
+                foreach (string j in parsed2)
+                  
+                {
+                    count++;
+                    Console.WriteLine("count"+ count + ": "+ j);
+
+                }
+                }
+          //  Console.WriteLine(parsed2[3]);
+       
+            // Console.WriteLine(decoded.Split(new[] { Environment.NewLine }, StringSplitOptions.None));
 
 
 
-            ConnectDb();
+           ConnectDb();
             Console.WriteLine(connectStat);
 
 
-            //start of db creation
+
+
+
+            //start of db insert 
 
 
 
@@ -61,19 +81,32 @@ namespace ETL_2
 
         }
 
+
+
         public static String ConnectDb()//fetches encoded file content
         {
             MySql.Data.MySqlClient.MySqlConnection conn;
             string myConnectionString;
-       
 
-            myConnectionString = "server=127.0.0.1;uid=root;" + "pwd=beee002j2011;database=world;";
+           
+                myConnectionString = "server=127.0.0.1;uid=root;" + "pwd=beee002j2011;database=world;";
+            using (var connection = new SqlConnection(myConnectionString))
 
-            try
+                try
             {
                 conn = new MySql.Data.MySqlClient.MySqlConnection(myConnectionString);
                 conn.Open();
                 connectStat = "Succesfull connection!";
+
+                var sql = "INSERT INTO customers(fname, lname, phone) VALUES(@FirstName, @SecondName,@Phone)";
+                using (var cmd = new SqlCommand(sql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@FirstName", "simeon");
+                    cmd.Parameters.AddWithValue("@SecondName", "wafula");
+                    cmd.Parameters.AddWithValue("@Phone", "0702826107");
+
+                  //  cmd.ExecuteNonQuery();
+                }
                 return connectStat;
                // conn.Close();
             }
@@ -93,10 +126,10 @@ namespace ETL_2
             return encodedData;
         }
 
-        public static String Decoded(String encodedData)//decodes fetched file content
+        public static String Decoded(String encodedData)//decodes fetched file content now
         {
             byte[] data = System.Convert.FromBase64String(encodedData);
-            var decoded = System.Text.ASCIIEncoding.ASCII.GetString(data);
+            var decoded = System.Text.UnicodeEncoding.ASCII.GetString(data);
             return decoded;
         }
     }
