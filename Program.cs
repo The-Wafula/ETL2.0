@@ -89,15 +89,15 @@ namespace ETL_2
             //var sql = "INSERT INTO customers(fname, lname, phone) VALUES(@FirstName, @SecondName,@Phone)";
 
             string dbConnectionString = "server=127.0.0.1;uid=root;" + "pwd=beee002j2011;database=testdb;";
-            using (SqlConnection connection = new SqlConnection(dbConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(dbConnectionString))
             {
                 string sql = "INSERT INTO customers(fname, lname, phone) VALUES(@FirstName, @SecondName,@Phone)";
-                using (SqlCommand cmd = new SqlCommand(sql, connection))
+                using (MySqlCommand cmd = new MySqlCommand(sql, connection))
                 {
 
                     connection.Open();
-                    cmd.Parameters.AddWithValue("@FirstName", "simeon");
-                    cmd.Parameters.AddWithValue("@SecondName", "wafula");
+                    cmd.Parameters.AddWithValue("@FirstName", "Alex");
+                    cmd.Parameters.AddWithValue("@SecondName", "Malik");
                     cmd.Parameters.AddWithValue("@Phone", "0702826107");
 
                     cmd.ExecuteNonQuery();
